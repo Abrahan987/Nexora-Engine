@@ -1,0 +1,32 @@
+{
+  "name": "nexora-engine",
+  "version": "0.1.0",
+  "description": "Motor ligero y sin dependencias para acelerar bots de WhatsApp (Baileys): cache, colas, plugins con hot-reload, cliente HTTP y potenciador en segundo plano.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["whatsapp", "baileys", "bot", "performance", "plugins"],
+  "author": "ABRAHAN-M",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.2"
+  }
+}
