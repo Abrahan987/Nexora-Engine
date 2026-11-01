@@ -30,7 +30,7 @@ const msg = (id: string, text: string, chat = 'u@s.whatsapp.net', participant?: 
 async function setup(files: Record<string, string>, opts = {}) {
 	const dir = await mkdtemp(join(tmpdir(), 'nexora-'))
 	for (const [name, src] of Object.entries(files)) await writeFile(join(dir, name), src)
-	const engine = createEngine({ pluginsDir: dir, booster: false, owners: ['999'], ...opts })
+	const engine = createEngine({ pluginsDir: dir, booster: false, banner: false, owners: ['999'], ...opts })
 	await engine.start()
 	return engine
 }

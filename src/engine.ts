@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { Deduper } from './cache.ts'
 import { Cooldowns, KeyedQueue, TaskQueue } from './queue.ts'
 import { Booster, type BoosterOptions } from './booster.ts'
@@ -44,6 +45,8 @@ export interface EngineOptions {
 	http?: HttpOptions
 	messages?: Partial<typeof DEFAULT_MESSAGES>
 	onError?: (err: unknown, ctx: CommandContext) => void
+	/** Print the startup banner. Defaults to true. */
+	banner?: boolean
 }
 
 export interface EngineStats {
@@ -142,6 +145,18 @@ export class NexoraEngine {
 
 	/** Loads plugins, starts the booster and hot-reload (when enabled). */
 	async start() {
+		if (this.opts.banner !== false) {
+			let version = ''
+			try {
+				const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version?: string }
+				version = pkg.version ? ` v${pkg.version}` : ''
+			} catch {
+				// Version is cosmetic; never fail startup over it.
+			}
+
+			process.stdout.write(`\n  ⚡ Nexora Engine${version}\n     by ABRAHAN-M\n\n`)
+		}
+
 		if (this.opts.pluginsDir) {
 			const count = await this.plugins.loadDir(this.opts.pluginsDir)
 			this.logger?.info({ count }, 'plugins loaded')
